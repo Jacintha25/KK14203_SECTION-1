@@ -1,0 +1,119 @@
+//LAB 5 EXERCISE 3
+/*
+Based on exercise 2, create a class BlackForest which is the subclass of Cake using extends.
+The class BlackForest has the following methods:
+• Constructor that accept String cake name, and call parent class Cake to send the name using super.
+• void method setCake that implements abstract method defined in class Cake which accept four parameters 
+  (array of toppings, price for small, price for medium and price for big)
+Modify class Cake so that the class is an abstract class.
+• Change the method setCake to abstract so that the method is implemented in class BlackForest. 
+• The method setCake in Cake class will become a method signature.
+*/
+
+abstract class Cake {
+	String name;
+	String[]toppping;
+	String[]toppingOrder;
+	double priceSmall, priceMedium, priceBig, totalPrice;
+	int size, qty;
+	public String[] topping;
+	
+
+	Cake(String name){ //CONSTRUCTOR
+		this.name = name;
+	}
+	
+	void cakeOrder(String[]toppingOrder, int qty, int size) {
+		this.toppingOrder = toppingOrder;
+		this.qty = qty;
+		this.size = size;
+	}
+	
+	double getSizePrice(int size){ //GETTER
+		if(size == 1)
+			return priceSmall;
+		else if(size == 2) 
+			return priceMedium; 
+		else if(size == 3) 
+			return priceBig;
+		else 
+			return 0;
+	}
+	
+	double getTotalPrice() {
+		
+		double totalPrice = getSizePrice(size) * qty + (toppingOrder.length * 10);
+			return totalPrice;
+	}
+	
+	String getSize(int size) { //Method called getSize which returns a String value according to the class member size value, 
+		String cakeSize = "";
+		if(size == 1) { 
+			cakeSize = "SMALL";
+		    return cakeSize;
+		}
+		else if(size == 2) {
+			cakeSize = "MEDIUM";
+			return cakeSize;
+		}
+		else if(size == 3) {
+			cakeSize = "BIG";
+		    return cakeSize;
+		}
+		else {
+			cakeSize = "SORRY, CAKE SIZE NOT AVAILABLE.";
+		    return cakeSize;
+		}
+	}
+	
+	void printCake() {
+		System.out.println("--------------------------------");
+		System.out.println("\tCake Menu\t");
+		System.out.println("--------------------------------");
+		System.out.println(name + " with available topping: ");
+		for(int i = 0 ; i<topping.length; i++) {
+			System.out.println(i+1 + ")" + topping[i]);
+		}    
+		System.out.println("\nPrice : ");
+		System.out.println("[1] Small  : RM" + priceSmall + "\n[2] Medium : RM" + priceMedium + "\n[3] Big    : RM" + priceBig);
+	}
+	
+	void printOrder() {
+		System.out.println("\nCake Order Detail: ");
+		System.out.println("-----------------------------------------------");
+		System.out.print("Topping : ");
+		for(int i = 0 ; i<toppingOrder.length ; i++) {
+			System.out.print( i+1 + ") " + toppingOrder[i] + " ");
+		}	
+		System.out.println("\nSize\t: " + getSize(size) + "\n");
+		System.out.println("-----------------------------------------------");
+		System.out.println("Total Price : RM" + getTotalPrice());
+		System.out.println("-----------------------------------------------");
+	}
+	abstract void setCake(String[]topping, double priceSmall, double priceMedium, double priceBig);
+}
+
+class BlackForest extends Cake{
+	BlackForest(String name){
+		super(name);
+	}
+
+    void setCake(String[]topping, double priceSmall, double priceMedium, double priceBig) {
+	    this.topping = topping;
+	    this.priceSmall = priceSmall;
+	    this.priceMedium = priceMedium;
+	    this.priceBig = priceBig;
+    }
+}
+
+public class TestCake1 {
+	public static void main(String args[]){ 
+		BlackForest c = new BlackForest("BlackForest"); 
+		String[] topping = {"Chocolate", "Cherries", "Whipped Cream"}; 
+		c.setCake(topping, 45.00, 65.00, 80.00); 
+		c.printCake(); 
+		
+		String[] order = {"Chocolate", "Cherries"}; 
+		c.cakeOrder(order, 1, 2); 
+		c.printOrder(); }
+}
